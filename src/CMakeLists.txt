@@ -13,45 +13,19 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
-
+    main.cpp
+    view/mainwindow.h
+    view/mainwindow.cpp
+    view/mainwindow.ui
+    model/person.h
+    model/person.cpp
+    controller/personcontroller.h
+    controller/personcontroller.cpp
 )
 
-set(VIEW_SOURCE
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-)
-
-set(MODEL_SOURCE
-    person.h
-    person.cpp
-)
-
-set(CONTROLLER_SOURCE
-    personcontroller.h
-    personcontroller.cpp
-)
-
-add_executable(View ${VIEW_SOURCE})
-add_executable(Model ${MODEL_SOURCE})
-add_executable(Controller ${CONTROLLER_SOURCE})
-
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Infection_Simulation
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-else()
-    add_executable(Infection_Simulation
-        ${PROJECT_SOURCES}
-    )
-endif()
+add_executable(Infection_Simulation ${PROJECT_SOURCES})
 
 target_link_libraries(Infection_Simulation PRIVATE Qt${QT_VERSION_MAJOR}::Widgets -lstdc++ -lm)
-target_link_libraries(View PRIVATE Qt${QT_VERSION_MAJOR}::Widgets -lstdc++ -lm)
-target_link_libraries(Model PRIVATE Qt${QT_VERSION_MAJOR}::Widgets -lstdc++ -lm)
-target_link_libraries(Controller PRIVATE Qt${QT_VERSION_MAJOR}::Widgets -lstdc++ -lm)
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.src)
