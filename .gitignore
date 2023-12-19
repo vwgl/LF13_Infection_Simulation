@@ -73,3 +73,6 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+
+# Dia Temp-Files
+*.dia~
