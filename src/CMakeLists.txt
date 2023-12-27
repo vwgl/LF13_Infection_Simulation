@@ -16,11 +16,14 @@ set(PROJECT_SOURCES
     main.cpp
     view/mainwindow.h
     view/mainwindow.cpp
-    view/mainwindow.ui
     model/person.h
     model/person.cpp
+    model/enumcolor.cpp
+    model/enumcolor.h
     controller/personcontroller.h
     controller/personcontroller.cpp
+    controller/controller.cpp
+    controller/controller.h
 )
 
 add_executable(Infection_Simulation ${PROJECT_SOURCES})
