@@ -14,11 +14,14 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
     main.cpp
+    model/status.h
     view/mainwindow.h
     view/mainwindow.cpp
     view/mainwindow.ui
     model/person.h
     model/person.cpp
+    model/population.h
+    model/population.cpp
     controller/personcontroller.h
     controller/personcontroller.cpp
 )
