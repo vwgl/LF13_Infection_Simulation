@@ -1,8 +1,12 @@
+#include <stdlib.h>
+#include <time.h>
+
 #include "population.h"
 #include "status.h"
 
-Population::Population(int x_size, int y_size, int radius)
+Population::Population(int x_size, int y_size, int radius, int num_persons)
 {
+    int x, y;
     this->x_size = x_size;
     this->y_size = y_size;
     this->radius = radius;
@@ -18,6 +22,18 @@ Population::Population(int x_size, int y_size, int radius)
     for(int i = 0; i < x_sectors * y_sectors; i++){
         this->area.push_back(new std::vector<Person*>());
     }
+    srand(time(0));
+    for(int i = 1; i < num_persons;){
+        x = rand() % x_size;
+        y = rand() % y_size;
+        if(addPerson(x,y,0)){
+            i++;
+        }
+    }
+    do{
+        x = rand() % x_size;
+        y = rand() % y_size;
+    }while(!addPerson(x,y,INFECTED + CONTAGIOUS));
 }
 
 std::vector<Person *> *Population::getSector(int idx)
@@ -30,9 +46,22 @@ std::vector<Person *> *Population::getSector(int x, int y)
     return this->area.at(getSectorIdx(x,y));
 }
 
-void Population::addPerson(int x, int y, int status)
+bool Population::addPerson(int x, int y, int status)
 {
-
+    Person *tempPers;
+    bool empty = true;
+    std::vector<Person *> *sector = getSector(CoordsToSectorIdx(x, y));
+    for(int i = 0; i < sector->size(); i++){
+        tempPers = sector->at(i);
+        if(tempPers->getX() == x && tempPers->getY() == y){
+            empty = false;
+            break;
+        }
+    }
+    if(empty){
+        sector->push_back(new Person(x,y,status));
+    }
+    return empty;
 }
 
 void Population::movePerson(Person *p, int src_x, int src_y, int dest_x, int dest_y)

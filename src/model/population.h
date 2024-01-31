@@ -8,10 +8,10 @@
 class Population
 {
 public:
-    Population(int x_size, int y_size, int radius);
+    Population(int x_size, int y_size, int radius, int num_persons);
     std::vector<Person*>* getSector(int idx);
     std::vector<Person*>* getSector(int x, int y);
-    void addPerson(int x, int y, int status);
+    bool addPerson(int x, int y, int status);
     void movePerson(Person *p, int src_x, int src_y, int dest_x, int dest_y);
     void killPerson(Person *p, int x, int y);
     void incSickCounter();
