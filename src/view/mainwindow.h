@@ -21,23 +21,25 @@ public:
     MainWindow(QWidget *parent = nullptr);
     void setController(Controller *controller);
     void setPixel(int x, int y, eColor color);
-    void getParameters(int params[]);
+    void getParameters(int *params[]);
+    void changeLabel(QLabel &label);
     ~MainWindow();
 
 private:
+    QPushButton *btnPause;
+    QPushButton *btnContinue;
+    QPushButton *btnStep;
     QPushButton *btnStart;
-    QPushButton *btnStop;
     QFrame *parameterFrame;
-    QLabel *labelPeople;
-    QLineEdit *lineEditPeople;
-    QLabel *labelIncubationTime;
-    QLineEdit *lineEditIncubationTime;
-    QLabel *labelInfectionTime;
-    QLineEdit *lineEditInfectionTime;
-    QLabel *labelRadiusSize;
-    QLineEdit *lineEditRadiusSize;
-    QPushButton *btnApply;
     QFrame *simulationFrame;
+    QLineEdit *lineEditPeople;
+    QLineEdit *lineEditInfectionTime;
+    QLineEdit *lineEditRadiusSize;
+    QLineEdit *lineEditIncubationTime;
+    QLabel *labelIncubationTime;
+    QLabel *labelInfectionTime;
+    QLabel *labelRadiusSize;
+    QLabel *labelPeople;
 
     Controller *controller;
 
@@ -51,10 +53,16 @@ private:
     QLabel *labelImmune;
     QLabel *whiteImageLabel;
 
+    int incubationTime;
+    int infectionTime;
+    int numPeople;
+    int infectionRadius;
+
 private slots:
+    void onPauseClicked();
+    void onContinueClicked();
+    void onStepClicked();
     void onStartClicked();
-    void onStopClicked();
-    void onApplyClicked();
 };
 
 #endif // MAINWINDOW_H
