@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "../model/enumcolor.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,8 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     whiteImageLabel = new QLabel(this);
 
-    btnStart = new QPushButton("Start", this);
-    btnStop = new QPushButton("Stop", this);
+    btnPause = new QPushButton("Pause", this);
+    btnContinue = new QPushButton("Continue", this);
+    btnStep = new QPushButton("Step", this);
     parameterFrame = new QFrame(this);
     labelPeople = new QLabel("People:", this);
     lineEditPeople = new QLineEdit(this);
@@ -19,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineEditInfectionTime = new QLineEdit(this);
     labelRadiusSize = new QLabel("Infection Radius Size:", this);
     lineEditRadiusSize = new QLineEdit(this);
-    btnApply = new QPushButton("Apply", this);
+    btnStart = new QPushButton("Start", this);
     simulationFrame = new QFrame(this);
 
     labelHealthy = new QLabel("Healthy: 0", this);
@@ -41,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     infoLayout->addWidget(labelIsolated);
     infoLayout->addWidget(labelContagious);
 
-    // Adding colored squares with labels to represent the legend
     QFrame *legendFrame = new QFrame(this);
     QVBoxLayout *legendLayout = new QVBoxLayout;
 
@@ -105,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *parameterLayout = new QVBoxLayout;
     parameterLayout->addLayout(parameterEditLayout);
     parameterLayout->addSpacing(10);
-    parameterLayout->addWidget(btnApply);
+    parameterLayout->addWidget(btnStart);
 
     QVBoxLayout *infoAndParameterLayout = new QVBoxLayout;
     infoAndParameterLayout->addLayout(parameterLayout);
@@ -116,8 +117,9 @@ MainWindow::MainWindow(QWidget *parent)
     parameterFrame->setLayout(infoAndParameterLayout);
 
     QHBoxLayout *toolbarLayout = new QHBoxLayout;
-    toolbarLayout->addWidget(btnStart);
-    toolbarLayout->addWidget(btnStop);
+    toolbarLayout->addWidget(btnPause);
+    toolbarLayout->addWidget(btnContinue);
+    toolbarLayout->addWidget(btnStep);
 
     QLabel *whiteImageLabel = new QLabel(this);
     whiteImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -141,25 +143,50 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(centralWidget);
 
 
+    connect(btnPause, &QPushButton::clicked, this, &MainWindow::onPauseClicked);
+    connect(btnContinue, &QPushButton::clicked, this, &MainWindow::onContinueClicked);
+    connect(btnStep, &QPushButton::clicked, this, &MainWindow::onStepClicked);
     connect(btnStart, &QPushButton::clicked, this, &MainWindow::onStartClicked);
-    connect(btnStop, &QPushButton::clicked, this, &MainWindow::onStopClicked);
-    connect(btnApply, &QPushButton::clicked, this, &MainWindow::onApplyClicked);
 }
 
 MainWindow::~MainWindow()
 {
+
+}
+
+
+void MainWindow::onPauseClicked()
+{
+
+}
+
+void MainWindow::onContinueClicked()
+{
+
+}
+
+void MainWindow::onStepClicked()
+{
+
+}
+
+void printArray(const int arr[], int size) {
+    for (int i = 0; i < size; ++i) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
 }
 
 void MainWindow::onStartClicked()
 {
-}
+    incubationTime = lineEditIncubationTime->text().toInt();
+    infectionTime = lineEditInfectionTime->text().toInt();
+    numPeople = lineEditPeople->text().toInt();
+    infectionRadius = lineEditRadiusSize->text().toInt();
 
-void MainWindow::onStopClicked()
-{
-}
+    QString s = QString::number(numPeople);
 
-void MainWindow::onApplyClicked()
-{
+    labelTotal->setText("Total: " + s);
 }
 
 void MainWindow::setController(Controller *controller)
@@ -187,7 +214,7 @@ void MainWindow::setPixel(int x, int y, eColor color)
             image.setPixelColor(x, y, Qt::blue);
             break;
         case Contagious:
-            image.setPixelColor(x, y, QColor(255, 165, 0));  // Use RGB representation for orange
+            image.setPixelColor(x, y, QColor(255, 165, 0));
             break;
         case Immune:
             image.setPixelColor(x, y, Qt::yellow);
@@ -198,3 +225,10 @@ void MainWindow::setPixel(int x, int y, eColor color)
     }
 }
 
+void MainWindow::getParameters(int *params[]){
+    (*params)[0] = numPeople;
+    (*params)[1] = incubationTime;
+    (*params)[2] = infectionTime;
+    (*params)[3] = infectionRadius;
+
+}
