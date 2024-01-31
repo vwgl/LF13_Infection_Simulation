@@ -23,8 +23,6 @@ set(PROJECT_SOURCES
     model/enumcolor.h
     model/population.h
     model/population.cpp
-    controller/personcontroller.h
-    controller/personcontroller.cpp
     controller/controller.cpp
     controller/controller.h
 )
