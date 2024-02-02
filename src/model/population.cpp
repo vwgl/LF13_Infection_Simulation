@@ -4,6 +4,16 @@
 #include "population.h"
 #include "status.h"
 
+Population::Population()
+{
+    this->x_sectors = 0;
+    this->y_sectors = 0;
+    this->x_size = 0;
+    this->y_size = 0;
+    this->area = std::vector<std::vector<Person*>*>(0);
+    this->persons = new std::vector<Person*>(0);
+}
+
 Population::Population(int x_size, int y_size, int radius, int num_persons)
 {
     int x, y;
@@ -19,6 +29,7 @@ Population::Population(int x_size, int y_size, int radius, int num_persons)
         this->y_sectors++;
     }
     this->area = std::vector<std::vector<Person*>*>(x_sectors * y_sectors);
+    this->persons = new std::vector<Person*>(num_persons);
     for(int i = 0; i < x_sectors * y_sectors; i++){
         this->area.push_back(new std::vector<Person*>());
     }
@@ -59,7 +70,9 @@ bool Population::addPerson(int x, int y, int status)
         }
     }
     if(empty){
-        sector->push_back(new Person(x,y,status));
+        tempPers = new Person(x,y,status);
+        sector->push_back(tempPers);
+        persons->push_back(tempPers);
     }
     return empty;
 }
@@ -105,12 +118,19 @@ void Population::movePerson(Person *p, int src_x, int src_y, int dest_x, int des
                 p->move(src_x, src_y); // Only advance time
             }
         }
+    }else{
+        p->move(src_x, src_y);
     }
 }
 
 void Population::killPerson(Person *p, int x, int y)
 {
 
+}
+
+std::vector<Person *>* Population::getPersons()
+{
+    return persons;
 }
 
 void Population::incSickCounter()
