@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include "controller.h"
+#include "../view/mainwindow.h"
 
 Controller::Controller(MainWindow gui) {
     x_size =  0; //TODO

@@ -1,8 +1,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "../view/mainwindow.h"
 #include "../model/population.h"
+
+class MainWindow;
 
 class Controller
 {
@@ -18,7 +19,7 @@ public:
 private:
     bool paused;
     bool busy;
-    int[4] params;
+    int params[4];
     Population population;
     int x_size;
     int y_size;
