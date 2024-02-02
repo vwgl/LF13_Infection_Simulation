@@ -170,13 +170,6 @@ void MainWindow::onStepClicked()
 
 }
 
-void printArray(const int arr[], int size) {
-    for (int i = 0; i < size; ++i) {
-        std::cout << arr[i] << " ";
-    }
-    std::cout << std::endl;
-}
-
 void MainWindow::onStartClicked()
 {
     incubationTime = lineEditIncubationTime->text().toInt();
@@ -184,9 +177,9 @@ void MainWindow::onStartClicked()
     numPeople = lineEditPeople->text().toInt();
     infectionRadius = lineEditRadiusSize->text().toInt();
 
-    QString s = QString::number(numPeople);
 
-    labelTotal->setText("Total: " + s);
+    changeLabel(*labelTotal, QString::fromUtf8("Total"), numPeople);
+    // call start function in controller
 }
 
 void MainWindow::setController(Controller *controller)
@@ -199,7 +192,7 @@ void MainWindow::setPixel(int x, int y, eColor color)
 {
     if (x >= 0 && x < 800 && y >= 0 && y < 600)
     {
-        QPixmap currentPixmap = whiteImageLabel->pixmap(Qt::ReturnByValue);
+QPixmap currentPixmap = whiteImageLabel->pixmap(Qt::ReturnByValue);
         QImage image = currentPixmap.toImage();
 
         switch (color)
@@ -231,4 +224,8 @@ void MainWindow::getParameters(int *params[]){
     (*params)[2] = infectionTime;
     (*params)[3] = infectionRadius;
 
+}
+
+void MainWindow::changeLabel(QLabel &label, QString s, int num){
+    label.setText(s + ": " + QString::number(num));
 }
