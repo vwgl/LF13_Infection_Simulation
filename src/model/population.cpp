@@ -118,6 +118,8 @@ void Population::movePerson(Person *p, int src_x, int src_y, int dest_x, int des
                 p->move(src_x, src_y); // Only advance time
             }
         }
+    }else{
+        p->move(src_x, src_y);
     }
 }
 
