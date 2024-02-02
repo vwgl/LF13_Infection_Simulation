@@ -23,6 +23,7 @@ public:
     void setPixel(int x, int y, eColor color);
     void getParameters(int *params[]);
     void changeLabel(QLabel &label);
+    void changeLabel(QLabel &label, QString s, int num);
     ~MainWindow();
 
 private:
