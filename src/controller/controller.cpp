@@ -58,14 +58,14 @@ void Controller::step()
     for(int i = 0; i < persons->size(); i++){
         p = persons->at(i);
         status = p->getStatus();
-        if((status & CONTAGIOUS) == CONTAGIOUS){
+        if((status & CONTAGIOUS) == CONTAGIOUS && (status & ISOLATED) != ISOLATED){
             x = p->getX();
             y = p->getY();
             sector = population.getSector(x,y);
             for(int j = 0; j < sector->size(); j++){
                 o = sector->at(j);
                 status = o->getStatus();
-                if((status & IMMUNE) != IMMUNE){
+                if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                     if((status & INFECTED) != INFECTED){
                         status = status | INFECTED;
                         o->updateStatus(status);
@@ -80,7 +80,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(p->getX() - o->getX() + abs(p->getY() -  o->getY()) <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -97,7 +97,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(p->getX() - o->getX() + p->getY() -  o->getY() <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -114,7 +114,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(abs(p->getX() - o->getX()) + p->getY() -  o->getY() <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -131,7 +131,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(o->getX() - p->getX() + p->getY() -  o->getY() <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -148,7 +148,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(o->getX() - p->getX() + abs(p->getY() -  o->getY()) <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -165,7 +165,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(o->getX() - p->getX() + o->getY() -  p->getY() <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE || (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -182,7 +182,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(abs(p->getX() - o->getX()) + o->getY() -  p->getY() <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE || (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
@@ -199,7 +199,7 @@ void Controller::step()
                     o = sector->at(j);
                     if(p->getX() - o->getX() + o->getY() -  p->getY() <= params[3]){
                         status = o->getStatus();
-                        if((status & IMMUNE) != IMMUNE){
+                        if((status & IMMUNE) != IMMUNE || (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
                                 status = status | INFECTED;
                                 o->updateStatus(status);
