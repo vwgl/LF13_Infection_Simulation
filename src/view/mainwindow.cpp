@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "../model/enumcolor.h"
 #include <iostream>
+#include <QApplication>
+#include <QRgb>
+#include <QColor>
+#include <QWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -125,11 +129,10 @@ MainWindow::MainWindow(QWidget *parent)
     whiteImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     whiteImageLabel->setScaledContents(true);
 
-    QImage whiteImage(800, 600, QImage::Format_RGB32);
-    whiteImage.fill(Qt::white);
-    whiteImageLabel->setPixmap(QPixmap::fromImage(whiteImage));
+    setImage();
+    getImage()->fill(Qt::white);
+    whiteImageLabel->setPixmap(QPixmap::fromImage(*getImage()));
 
-    QVBoxLayout *simulationLayout = new QVBoxLayout;
     simulationLayout->addLayout(toolbarLayout);
     simulationLayout->addWidget(whiteImageLabel);
 
@@ -152,6 +155,18 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::setImage()
+{
+    QImage newImage(800, 600, QImage::Format_RGB32);
+    this->whiteImage = newImage;
+
+}
+
+QImage* MainWindow::getImage()
+{
+    return &whiteImage;
 }
 
 
@@ -177,46 +192,94 @@ void MainWindow::onStartClicked()
     numPeople = lineEditPeople->text().toInt();
     infectionRadius = lineEditRadiusSize->text().toInt();
 
-
     changeLabel(*labelTotal, QString::fromUtf8("Total"), numPeople);
-    // call start function in controller
+    updateImage(0, 0, Healthy);
 }
+
+
 
 void MainWindow::setController(Controller *controller)
 {
     this->controller = controller;
 }
 
-
-void MainWindow::setPixel(int x, int y, eColor color)
+void MainWindow::setArea(int startX, int startY, int width, int height, eColor color, QImage *image)
 {
-    if (x >= 0 && x < 800 && y >= 0 && y < 600)
-    {
-QPixmap currentPixmap = whiteImageLabel->pixmap(Qt::ReturnByValue);
-        QImage image = currentPixmap.toImage();
 
+    int endX = startX + width;
+    int endY = startY + height;
+
+    for (int x = startX; x < endX; ++x)
+    {
+        for (int y = startY; y < endY; ++y)
+        {
+            setPixel(x, y, color, image);
+        }
+    }
+}
+
+void MainWindow::updateImage(const int startX, const int startY, const eColor color)
+{
+
+    QImage copyImage = getImage()->copy();
+
+    setPixel(startX, startY, color, &copyImage);
+
+    copyImage = copyImage.scaled(800, 600, Qt::IgnoreAspectRatio);
+
+    QPixmap pixmap = QPixmap::fromImage(copyImage);
+
+    QLabel *copyLabel = new QLabel;
+    copyLabel->setPixmap(pixmap);
+
+    simulationLayout->removeWidget(whiteImageLabel);
+    delete whiteImageLabel;
+
+    whiteImage = copyImage;
+
+    whiteImageLabel = copyLabel;
+
+    QLayoutItem* item;
+    while ((item = simulationLayout->takeAt(0)) != nullptr)
+    {
+        delete item->widget();
+        delete item;
+    }
+
+    simulationLayout->addWidget(copyLabel);
+
+    simulationLayout->update();
+
+    qApp->processEvents();
+}
+
+
+
+void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
+{
+    if (x >= 0 && x < 800 && y >= 0 && y < 600 && image)
+    {
         switch (color)
         {
         case Healthy:
-            image.setPixelColor(x, y, Qt::green);
+            image->setPixelColor(x, y, Qt::green);
             break;
         case Infected:
-            image.setPixelColor(x, y, Qt::red);
+            image->setPixelColor(x, y, Qt::red);
             break;
         case Isolated:
-            image.setPixelColor(x, y, Qt::blue);
+            image->setPixelColor(x, y, Qt::blue);
             break;
         case Contagious:
-            image.setPixelColor(x, y, QColor(255, 165, 0));
+            image->setPixelColor(x, y, QColor(255, 165, 0));
             break;
         case Immune:
-            image.setPixelColor(x, y, Qt::yellow);
+            image->setPixelColor(x, y, Qt::yellow);
             break;
         }
-
-        whiteImageLabel->setPixmap(QPixmap::fromImage(image));
     }
 }
+
 
 void MainWindow::getParameters(int *params[]){
     (*params)[0] = numPeople;

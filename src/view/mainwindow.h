@@ -20,13 +20,18 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void setController(Controller *controller);
-    void setPixel(int x, int y, eColor color);
+    void setPixel(int x, int y, eColor color, QImage *image);
+    void updateImage(const int startX, const int startY, const eColor color);
+    void setArea(int startX, int startY, int width, int height, eColor color, QImage *image);
     void getParameters(int *params[]);
     void changeLabel(QLabel &label);
+    QImage* getImage();
     void changeLabel(QLabel &label, QString s, int num);
     ~MainWindow();
 
 private:
+    QVBoxLayout *simulationLayout = new QVBoxLayout;
+    QImage whiteImage;
     QPushButton *btnPause;
     QPushButton *btnContinue;
     QPushButton *btnStep;
@@ -58,6 +63,8 @@ private:
     int infectionTime;
     int numPeople;
     int infectionRadius;
+
+    void setImage();
 
 private slots:
     void onPauseClicked();
