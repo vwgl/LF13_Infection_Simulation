@@ -210,6 +210,12 @@ void Controller::step()
                 }
             }
         }
+        if(p->getDaysInfected() >= params[1]){
+            p->updateStatus(INFECTED + SYMPTOMATIC + CONTAGIOUS);
+        }
+        if(p->getDaysInfected() >= params[2]){
+            p->updateStatus(IMMUNE);
+        }
     }
 }
 
