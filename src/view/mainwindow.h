@@ -21,8 +21,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     void setController(Controller *controller);
     void setPixel(int x, int y, eColor color, QImage *image);
-    void updateImage(const int startX, const int startY, const eColor color);
-    void setArea(int startX, int startY, int width, int height, eColor color, QImage *image);
+    void updateImage(QImage* image);
     void getParameters(int *params[]);
     void changeLabel(QLabel &label);
     QImage* getImage();

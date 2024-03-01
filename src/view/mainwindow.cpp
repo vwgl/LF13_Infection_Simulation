@@ -109,18 +109,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVBoxLayout *parameterLayout = new QVBoxLayout;
     parameterLayout->addLayout(parameterEditLayout);
-    parameterLayout->addSpacing(10);
     parameterLayout->addWidget(btnStart);
 
+    QVBoxLayout *buttonLayout = new QVBoxLayout;
+    buttonLayout->addWidget(btnPause);
+
     QVBoxLayout *infoAndParameterLayout = new QVBoxLayout;
-    infoAndParameterLayout->addLayout(parameterLayout);
+    // infoAndParameterLayout->addLayout(parameterLayout);
     infoAndParameterLayout->addWidget(legendFrame);
     infoAndParameterLayout->addLayout(infoLayout);
-    infoAndParameterLayout->setSpacing(5);
 
     parameterFrame->setLayout(infoAndParameterLayout);
 
-    QHBoxLayout *toolbarLayout = new QHBoxLayout;
+    QVBoxLayout *toolbarLayout = new QVBoxLayout;
+    toolbarLayout->addLayout(parameterLayout);
     toolbarLayout->addWidget(btnPause);
     toolbarLayout->addWidget(btnContinue);
     toolbarLayout->addWidget(btnStep);
@@ -133,10 +135,10 @@ MainWindow::MainWindow(QWidget *parent)
     getImage()->fill(Qt::white);
     whiteImageLabel->setPixmap(QPixmap::fromImage(*getImage()));
 
-    simulationLayout->addLayout(toolbarLayout);
     simulationLayout->addWidget(whiteImageLabel);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
+    mainLayout->addLayout(toolbarLayout);
     mainLayout->addLayout(simulationLayout, 6);
     mainLayout->addWidget(parameterFrame);
     mainLayout->addLayout(infoAndParameterLayout, 2);
@@ -193,7 +195,10 @@ void MainWindow::onStartClicked()
     infectionRadius = lineEditRadiusSize->text().toInt();
 
     changeLabel(*labelTotal, QString::fromUtf8("Total"), numPeople);
-    updateImage(0, 0, Healthy);
+    // Move to Controller
+    // QImage copyimage = getImage()->copy();
+    // setPixel(1, 1, Infected, &copyimage);
+    // updateImage(&copyimage);
 }
 
 
@@ -203,39 +208,26 @@ void MainWindow::setController(Controller *controller)
     this->controller = controller;
 }
 
-void MainWindow::setArea(int startX, int startY, int width, int height, eColor color, QImage *image)
+void MainWindow::updateImage(QImage* image)
 {
 
-    int endX = startX + width;
-    int endY = startY + height;
+    QImage* copyImage = image;
 
-    for (int x = startX; x < endX; ++x)
-    {
-        for (int y = startY; y < endY; ++y)
-        {
-            setPixel(x, y, color, image);
-        }
-    }
-}
+    copyImage->scaled(800, 600);
 
-void MainWindow::updateImage(const int startX, const int startY, const eColor color)
-{
-
-    QImage copyImage = getImage()->copy();
-
-    setPixel(startX, startY, color, &copyImage);
-
-    copyImage = copyImage.scaled(800, 600, Qt::IgnoreAspectRatio);
-
-    QPixmap pixmap = QPixmap::fromImage(copyImage);
+    QPixmap pixmap = QPixmap::fromImage(*copyImage);
 
     QLabel *copyLabel = new QLabel;
     copyLabel->setPixmap(pixmap);
 
+    copyLabel->setScaledContents( true );
+
+    copyLabel->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+
     simulationLayout->removeWidget(whiteImageLabel);
     delete whiteImageLabel;
 
-    whiteImage = copyImage;
+    whiteImage = *copyImage;
 
     whiteImageLabel = copyLabel;
 
