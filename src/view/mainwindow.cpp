@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "../model/enumcolor.h"
+#include "../controller/controller.h"
 #include <iostream>
 #include <QApplication>
 #include <QRgb>

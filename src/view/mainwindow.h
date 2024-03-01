@@ -10,8 +10,9 @@
 #include <QLineEdit>
 #include <QImage>
 
-#include "../controller/controller.h"
 #include "../model/enumcolor.h"
+
+class Controller;
 
 class MainWindow : public QMainWindow
 {

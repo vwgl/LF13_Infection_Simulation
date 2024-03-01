@@ -2,8 +2,7 @@
 #define CONTROLLER_H
 
 #include "../model/population.h"
-
-class MainWindow;
+#include "../view/mainwindow.h"
 
 class Controller
 {
@@ -21,6 +20,7 @@ private:
     bool busy;
     int params[4];
     Population population;
+    MainWindow gui;
     int x_size;
     int y_size;
 
