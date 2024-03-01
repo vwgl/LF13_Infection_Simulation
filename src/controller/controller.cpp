@@ -216,6 +216,9 @@ void Controller::step()
         if(p->getDaysInfected() >= params[2]){
             p->updateStatus(IMMUNE);
         }
+        if(p->getDaysImmune() >= 30){
+            p->updateStatus(0);
+        }
     }
 }
 
