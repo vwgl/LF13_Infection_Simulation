@@ -11,12 +11,14 @@ public:
     int getY();
     int getStatus();
     int getDaysInfected();
+    int getDaysImmune();
 
 private:
     int status;
     int x;
     int y;
     int days_infected;
+    int days_immune;
 
 };
 
