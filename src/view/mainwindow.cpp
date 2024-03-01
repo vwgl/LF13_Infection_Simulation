@@ -274,11 +274,11 @@ void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
 }
 
 
-void MainWindow::getParameters(int *params[]){
-    (*params)[0] = numPeople;
-    (*params)[1] = incubationTime;
-    (*params)[2] = infectionTime;
-    (*params)[3] = infectionRadius;
+void MainWindow::getParameters(int *params){
+    params[0] = numPeople;
+    params[1] = incubationTime;
+    params[2] = infectionTime;
+    params[3] = infectionRadius;
 
 }
 

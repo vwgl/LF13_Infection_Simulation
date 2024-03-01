@@ -23,7 +23,7 @@ public:
     void setController(Controller *controller);
     void setPixel(int x, int y, eColor color, QImage *image);
     void updateImage(QImage* image);
-    void getParameters(int *params[]);
+    void getParameters(int *params);
     void changeLabel(QLabel &label);
     QImage* getImage();
     void changeLabel(QLabel &label, QString s, int num);
