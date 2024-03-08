@@ -20,7 +20,7 @@ private:
     bool busy;
     int params[4];
     Population population;
-    MainWindow gui;
+    MainWindow *gui;
     int x_size;
     int y_size;
 

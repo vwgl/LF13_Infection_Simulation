@@ -5,24 +5,28 @@
 #include "../model/status.h"
 
 Controller::Controller(MainWindow gui) {
-    x_size =  0; //TODO
-    y_size = 0; //TODO
+    x_size =  800;
+    y_size = 600;
+    this->gui = &gui;
 }
 
 void Controller::start()
 {
     this->paused = false;
-
+    gui->getParameters(params);
+    this->population = Population(x_size, y_size, params[0],params[3]);
+    simulation();
 }
 
 void Controller::stop()
 {
-
+    this->paused = true;
 }
 
 void Controller::cont()
 {
-
+    gui->getParameters(params);
+    this->paused = false;
 }
 
 void Controller::step()
@@ -224,7 +228,11 @@ void Controller::step()
 
 void Controller::simulation()
 {
-
+    while(true){
+        if(!this->paused){
+            step();
+        }
+    }
 }
 
 void Controller::exit()
