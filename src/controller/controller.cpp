@@ -2,7 +2,6 @@
 #include <time.h>
 
 #include "controller.h"
-#include "../view/mainwindow.h"
 #include "../model/status.h"
 
 Controller::Controller(MainWindow gui) {
@@ -12,6 +11,7 @@ Controller::Controller(MainWindow gui) {
 
 void Controller::start()
 {
+    this->paused = false;
 
 }
 

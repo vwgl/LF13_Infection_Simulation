@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "../model/enumcolor.h"
+#include "../controller/controller.h"
 #include <iostream>
 #include <QApplication>
 #include <QRgb>
@@ -97,6 +98,12 @@ MainWindow::MainWindow(QWidget *parent)
     legendLayout->addLayout(colorLayout5);
     legendFrame->setLayout(legendLayout);
 
+    int labelHeight = 30;
+    labelPeople->setFixedHeight(labelHeight);
+    labelIncubationTime->setFixedHeight(labelHeight);
+    labelInfectionTime->setFixedHeight(labelHeight);
+    labelRadiusSize->setFixedHeight(labelHeight);
+
     QVBoxLayout *parameterEditLayout = new QVBoxLayout;
     parameterEditLayout->addWidget(labelPeople);
     parameterEditLayout->addWidget(lineEditPeople);
@@ -109,23 +116,25 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVBoxLayout *parameterLayout = new QVBoxLayout;
     parameterLayout->addLayout(parameterEditLayout);
-    parameterLayout->addWidget(btnStart);
 
     QVBoxLayout *buttonLayout = new QVBoxLayout;
+    buttonLayout->addWidget(btnStart);
     buttonLayout->addWidget(btnPause);
+    buttonLayout->addWidget(btnContinue);
+    buttonLayout->addWidget(btnStep);
 
     QVBoxLayout *infoAndParameterLayout = new QVBoxLayout;
-    // infoAndParameterLayout->addLayout(parameterLayout);
     infoAndParameterLayout->addWidget(legendFrame);
     infoAndParameterLayout->addLayout(infoLayout);
 
     parameterFrame->setLayout(infoAndParameterLayout);
 
+    parameterEditLayout->setSpacing(20);
+    buttonLayout->setSpacing(80);
+
     QVBoxLayout *toolbarLayout = new QVBoxLayout;
     toolbarLayout->addLayout(parameterLayout);
-    toolbarLayout->addWidget(btnPause);
-    toolbarLayout->addWidget(btnContinue);
-    toolbarLayout->addWidget(btnStep);
+    toolbarLayout->addLayout(buttonLayout);
 
     QLabel *whiteImageLabel = new QLabel(this);
     whiteImageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -273,11 +282,11 @@ void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
 }
 
 
-void MainWindow::getParameters(int *params[]){
-    (*params)[0] = numPeople;
-    (*params)[1] = incubationTime;
-    (*params)[2] = infectionTime;
-    (*params)[3] = infectionRadius;
+void MainWindow::getParameters(int *params){
+    params[0] = numPeople;
+    params[1] = incubationTime;
+    params[2] = infectionTime;
+    params[3] = infectionRadius;
 
 }
 

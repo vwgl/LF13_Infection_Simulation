@@ -10,8 +10,9 @@
 #include <QLineEdit>
 #include <QImage>
 
-#include "../controller/controller.h"
 #include "../model/enumcolor.h"
+
+class Controller;
 
 class MainWindow : public QMainWindow
 {
@@ -22,8 +23,7 @@ public:
     void setController(Controller *controller);
     void setPixel(int x, int y, eColor color, QImage *image);
     void updateImage(QImage* image);
-    void getParameters(int *params[]);
-    void changeLabel(QLabel &label);
+    void getParameters(int *params);
     QImage* getImage();
     void changeLabel(QLabel &label, QString s, int num);
     ~MainWindow();
