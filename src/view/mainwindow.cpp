@@ -34,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     labelInfected = new QLabel("Infected: 0", this);
     labelTotal = new QLabel("Total: 0", this);
     labelAlive = new QLabel("Alive: 0", this);
-    labelIsolated = new QLabel("Isolated: 0", this);
     labelContagious = new QLabel("Contagious: 0", this);
     labelImmune = new QLabel("Immune: 0", this);
 
@@ -45,19 +44,12 @@ MainWindow::MainWindow(QWidget *parent)
     infoLayout->addWidget(labelHealthy);
     infoLayout->addWidget(labelImmune);
     infoLayout->addWidget(labelInfected);
-    infoLayout->addWidget(labelIsolated);
     infoLayout->addWidget(labelContagious);
 
     QFrame *legendFrame = new QFrame(this);
     QVBoxLayout *legendLayout = new QVBoxLayout;
 
     QHBoxLayout *colorLayout1 = new QHBoxLayout;
-    QLabel *isolatedLabel = new QLabel(this);
-    isolatedLabel->setFixedSize(20, 20);
-    isolatedLabel->setStyleSheet("background-color: blue;");
-    QLabel *isolatedText = new QLabel("Isolated", this);
-    colorLayout1->addWidget(isolatedLabel);
-    colorLayout1->addWidget(isolatedText);
 
     QHBoxLayout *colorLayout2 = new QHBoxLayout;
     QLabel *contagiousLabel = new QLabel(this);
@@ -265,9 +257,6 @@ void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
             break;
         case Infected:
             image->setPixelColor(x, y, Qt::red);
-            break;
-        case Isolated:
-            image->setPixelColor(x, y, Qt::blue);
             break;
         case Contagious:
             image->setPixelColor(x, y, QColor(255, 165, 0));

@@ -53,7 +53,6 @@ private:
     QLabel *labelInfected;
     QLabel *labelTotal;
     QLabel *labelAlive;
-    QLabel *labelIsolated;
     QLabel *labelContagious;
     QLabel *labelImmune;
     QLabel *whiteImageLabel;
