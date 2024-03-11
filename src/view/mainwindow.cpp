@@ -211,7 +211,6 @@ void MainWindow::onStartClicked()
 }
 
 
-
 void MainWindow::setController(Controller *controller)
 {
     this->controller = controller;
@@ -255,7 +254,6 @@ void MainWindow::updateImage(QImage* image)
 }
 
 
-
 void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
 {
     if (x >= 0 && x < 800 && y >= 0 && y < 600 && image)
@@ -277,17 +275,17 @@ void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
         case Immune:
             image->setPixelColor(x, y, Qt::yellow);
             break;
+        case Free:
+            image->setPixelColor(x, y, Qt::white);
         }
     }
 }
-
 
 void MainWindow::getParameters(int *params){
     params[0] = numPeople;
     params[1] = incubationTime;
     params[2] = infectionTime;
     params[3] = infectionRadius;
-
 }
 
 void MainWindow::changeLabel(QLabel &label, QString s, int num){

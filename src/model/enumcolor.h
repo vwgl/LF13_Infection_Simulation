@@ -8,7 +8,8 @@ enum eColor
     Infected,
     Isolated,
     Contagious,
-    Immune
+    Immune,
+    Free
 };
 
 const char *colorToString(eColor color);
