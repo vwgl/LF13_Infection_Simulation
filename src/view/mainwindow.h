@@ -41,10 +41,16 @@ private:
     QLineEdit *lineEditInfectionTime;
     QLineEdit *lineEditRadiusSize;
     QLineEdit *lineEditIncubationTime;
+    QLineEdit *lineEditInfectionProbability;
+    QLineEdit *lineEditDeathProbability;
+    QLineEdit *lineEditImmuneTime;
     QLabel *labelIncubationTime;
     QLabel *labelInfectionTime;
     QLabel *labelRadiusSize;
     QLabel *labelPeople;
+    QLabel *labelInfectionProbability;
+    QLabel *labelDeathProbability;
+    QLabel *labelImmuneTime;
 
     Controller *controller;
 
@@ -61,6 +67,9 @@ private:
     int infectionTime;
     int numPeople;
     int infectionRadius;
+    int infectionProbability;
+    int deathProbability;
+    int immuneTime;
 
     void setImage();
 

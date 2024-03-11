@@ -26,6 +26,12 @@ MainWindow::MainWindow(QWidget *parent)
     lineEditInfectionTime = new QLineEdit(this);
     labelRadiusSize = new QLabel("Infection Radius Size:", this);
     lineEditRadiusSize = new QLineEdit(this);
+    labelInfectionProbability = new QLabel("Infection Probability:", this);
+    lineEditInfectionProbability = new QLineEdit(this);
+    labelDeathProbability = new QLabel("Death Probability:", this);
+    lineEditDeathProbability = new QLineEdit(this);
+    labelImmuneTime = new QLabel("Immune time:", this);
+    lineEditImmuneTime = new QLineEdit(this);
     btnStart = new QPushButton("Start", this);
     simulationFrame = new QFrame(this);
 
@@ -95,6 +101,9 @@ MainWindow::MainWindow(QWidget *parent)
     labelIncubationTime->setFixedHeight(labelHeight);
     labelInfectionTime->setFixedHeight(labelHeight);
     labelRadiusSize->setFixedHeight(labelHeight);
+    labelInfectionProbability->setFixedHeight(labelHeight);
+    labelDeathProbability->setFixedHeight(labelHeight);
+    labelImmuneTime->setFixedHeight(labelHeight);
 
     QVBoxLayout *parameterEditLayout = new QVBoxLayout;
     parameterEditLayout->addWidget(labelPeople);
@@ -105,6 +114,12 @@ MainWindow::MainWindow(QWidget *parent)
     parameterEditLayout->addWidget(lineEditInfectionTime);
     parameterEditLayout->addWidget(labelRadiusSize);
     parameterEditLayout->addWidget(lineEditRadiusSize);
+    parameterEditLayout->addWidget(labelInfectionProbability);
+    parameterEditLayout->addWidget(lineEditInfectionProbability);
+    parameterEditLayout->addWidget(labelDeathProbability);
+    parameterEditLayout->addWidget(lineEditDeathProbability);
+    parameterEditLayout->addWidget(labelImmuneTime);
+    parameterEditLayout->addWidget(lineEditImmuneTime);
 
     QVBoxLayout *parameterLayout = new QVBoxLayout;
     parameterLayout->addLayout(parameterEditLayout);
@@ -122,7 +137,7 @@ MainWindow::MainWindow(QWidget *parent)
     parameterFrame->setLayout(infoAndParameterLayout);
 
     parameterEditLayout->setSpacing(20);
-    buttonLayout->setSpacing(80);
+    buttonLayout->setSpacing(60);
 
     QVBoxLayout *toolbarLayout = new QVBoxLayout;
     toolbarLayout->addLayout(parameterLayout);
@@ -194,6 +209,9 @@ void MainWindow::onStartClicked()
     infectionTime = lineEditInfectionTime->text().toInt();
     numPeople = lineEditPeople->text().toInt();
     infectionRadius = lineEditRadiusSize->text().toInt();
+    infectionProbability = lineEditInfectionProbability->text().toInt();
+    deathProbability = lineEditDeathProbability->text().toInt();
+    immuneTime = lineEditImmuneTime->text().toInt();
 
     changeLabel(*labelTotal, QString::fromUtf8("Total"), numPeople);
     // Move to Controller
@@ -275,6 +293,9 @@ void MainWindow::getParameters(int *params){
     params[1] = incubationTime;
     params[2] = infectionTime;
     params[3] = infectionRadius;
+    params[4] = infectionProbability;
+    params[5] = deathProbability;
+    params[6] = immuneTime;
 }
 
 void MainWindow::changeLabel(QLabel &label, QString s, int num){
