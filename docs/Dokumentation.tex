@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+	citecolor=blue
+}
+
+
+\title{Mathematische Hintergründe der Infektionsausbreitung}
+\author{Simon Loose, \\ Vivien Wegel}
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	\newpage
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Softwareanforderungen}
+	\begin{itemize}
+		\item \textbf{CMake:} Version 3.5
+		\item \textbf{Programmiersprache:} C++17
+		\item \textbf{Qt Framework:} Version 5.12.2
+	\end{itemize}
+	Getestet auf Ubuntu und Linux Mint.
+	
+	\section{Beschreibung}
+	Dieses Projekt zielt darauf ab, eine Simulation zu erstellen, die die Ausbreitung von Infektionen darstellt. Innerhalb der Simulation werden Individuen erzeugt, die sich durch die Umgebung bewegen und innerhalb eines festgelegten Radius von anderen infizierten Personen möglicherweise angesteckt werden können. Jeder Person in der Simulation wird verschiedene Status zugewiesen, wie gesund, infiziert oder isoliert. Zusätzlich umfasst das Projekt die Entwicklung einer Benutzeroberfläche, um die Simulation visuell darzustellen.
+	
+	\section{Einteilung des Bewegungsraums}
+	Der Raum, in dem sich die Personen bewegen, wird abhängig von dem angegebenen Infektionsradius in Sektoren eingeteilt. Die Sektoren sind Quadrate mit der Kantenlänge des Infektionsradius. Zu jedem Sektor gibt es eine Liste mit Personen, die sich gerade in diesem Sektor befinden. Die Aufteilung in Sektoren findet statt, um Personen, die sich nicht in der Nähe befinden, von Berechnungen auszuschließen.
+	
+	\section{Bewegung der Personen}
+	Die Personen Bewegen sich zufällig entweder 0 oder 1 Pixel in x und/oder y Richtung. Sollte die Position bereits von einer anderen Person belegt sein, bleibt die Person für diesen Schritt stehen. Wenn dabei ein Sektor verlassen wird, wird die Person aus der Liste des Sektors den sie verlässt entfernt und der Liste des Sektor den sie betritt hinzugefügt. Nachdem sich alle Personen bewegt haben wird der Status angepasst und die Darstellung aktualisiert.
+	
+	
+	\section{Ausbreitung der Infektion}
+	\label{sec:ausbreitung}
+	Zu Beginn der Infektion werden alle Personen mit dem Status Gesund auf einer zufälligen Position hinzugefügt, bis auf die letzte Person, welche infiziert ist. Wenn eine Person nach dem Bewegen aller Personen im Radius einer ansteckenden Person steht, dann ist diese Person im selben Schritt mit einer bestimmtem Wahrscheinlichkeit ebenfalls infiziert. Verglichen werden die Personen, die im selben Sektor und in den acht benachbarten Sektoren sind. Die Distanz zu anderen Personen wird hierbei angenähert über: \\
+		\[|x1 - x2| + |y1 - y2| \]
+	\\
+	Die Distanz wird nur angenähert, um die zusätzliche Rechenzeit durch die Umwandlung von Ganzzahlen und Fließkommazahlen zu vermeiden. Korrekt wäre die Verwendung des euklidischen Abstandes: \\
+	\[ \sqrt{{(x1 - x2)}^2 + {(y1 - y2)}^2} \]
+	
+	\section{Verschiedene Status und Übergänge}
+	Die verschiedenen Status, die die Personen annehmen können, sind: Gesund, Infiziert, Ansteckend, Tot, Immun. Von dem Status Gesund aus kann man nur in den Status Infiziert wechseln, wenn entsprechende Umstände gegeben sind (siehe \hyperref[sec:ausbreitung]{Ausbreitung der Infektion}). Infiziert geht nach Ablauf der Inkubationszeit in Infiziert und Ansteckend über. Nach Ablauf der Infektionszeit geht der Status von Infiziert und Ansteckend entweder in Immun oder in Tot über. Sobald die Dauer des Status Immun ausgelaufen ist, wechselt der Zustand der Person zu Gesund.
+	
+	
+	\section{Verknüpfung von GUI und Logik}
+	Über die GUI werden die Parameter für die Menge an Personen, die Inkubations- und Infektionszeit, den Infektionsradius, die Ansteckungs- und Sterbewahrscheinlichkeit und die Immundauer eingegeben. Die Simulation wird über die GUI gestartet, pausiert und fortgesetzt. Auf der GUI wird eine Statistik zu den Status geführt und Personen werden in Form von Pixeln angezeigt. Das Platzieren der Personen und Updaten der Statistik wird vom Controller übernommen. 
+	
+	\section{Ausblick}
+	Zur Verbesserung der Laufzeit könnte man bei der Ansteckung von Personen Threads anwenden. Zusätzlich kann man die Status Isoliert, Symptomatisch und Getestet hinzufügen. Hierfür bestehen bereits teilweise Implementationen. Außerdem kann man den Infektionsradius verfeinern, sodass die Infektionswahrscheinlichkeit mit größerer Entfernung abnimmt. Personen können sich gezielt zu Sammelplätzen wie z.B. Schulen und Treffen mit anderen Personen bewegen.
+	
+\end{document}
