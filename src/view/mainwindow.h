@@ -33,7 +33,6 @@ private:
     QImage whiteImage;
     QPushButton *btnPause;
     QPushButton *btnContinue;
-    QPushButton *btnStep;
     QPushButton *btnStart;
     QFrame *parameterFrame;
     QFrame *simulationFrame;
@@ -76,7 +75,6 @@ private:
 private slots:
     void onPauseClicked();
     void onContinueClicked();
-    void onStepClicked();
     void onStartClicked();
 };
 

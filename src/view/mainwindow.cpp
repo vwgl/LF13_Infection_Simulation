@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     btnPause = new QPushButton("Pause", this);
     btnContinue = new QPushButton("Continue", this);
-    btnStep = new QPushButton("Step", this);
     parameterFrame = new QFrame(this);
     labelPeople = new QLabel("People:", this);
     lineEditPeople = new QLineEdit(this);
@@ -128,7 +127,6 @@ MainWindow::MainWindow(QWidget *parent)
     buttonLayout->addWidget(btnStart);
     buttonLayout->addWidget(btnPause);
     buttonLayout->addWidget(btnContinue);
-    buttonLayout->addWidget(btnStep);
 
     QVBoxLayout *infoAndParameterLayout = new QVBoxLayout;
     infoAndParameterLayout->addWidget(legendFrame);
@@ -165,8 +163,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(btnPause, &QPushButton::clicked, this, &MainWindow::onPauseClicked);
-    connect(btnContinue, &QPushButton::clicked, this, &MainWindow::onContinueClicked);
-    connect(btnStep, &QPushButton::clicked, this, &MainWindow::onStepClicked);
     connect(btnStart, &QPushButton::clicked, this, &MainWindow::onStartClicked);
 }
 
@@ -194,11 +190,6 @@ void MainWindow::onPauseClicked()
 }
 
 void MainWindow::onContinueClicked()
-{
-
-}
-
-void MainWindow::onStepClicked()
 {
 
 }
