@@ -33,7 +33,6 @@ private:
     QImage whiteImage;
     QPushButton *btnPause;
     QPushButton *btnContinue;
-    QPushButton *btnStep;
     QPushButton *btnStart;
     QFrame *parameterFrame;
     QFrame *simulationFrame;
@@ -41,10 +40,16 @@ private:
     QLineEdit *lineEditInfectionTime;
     QLineEdit *lineEditRadiusSize;
     QLineEdit *lineEditIncubationTime;
+    QLineEdit *lineEditInfectionProbability;
+    QLineEdit *lineEditDeathProbability;
+    QLineEdit *lineEditImmuneTime;
     QLabel *labelIncubationTime;
     QLabel *labelInfectionTime;
     QLabel *labelRadiusSize;
     QLabel *labelPeople;
+    QLabel *labelInfectionProbability;
+    QLabel *labelDeathProbability;
+    QLabel *labelImmuneTime;
 
     Controller *controller;
 
@@ -53,7 +58,6 @@ private:
     QLabel *labelInfected;
     QLabel *labelTotal;
     QLabel *labelAlive;
-    QLabel *labelIsolated;
     QLabel *labelContagious;
     QLabel *labelImmune;
     QLabel *whiteImageLabel;
@@ -62,13 +66,15 @@ private:
     int infectionTime;
     int numPeople;
     int infectionRadius;
+    int infectionProbability;
+    int deathProbability;
+    int immuneTime;
 
     void setImage();
 
 private slots:
     void onPauseClicked();
     void onContinueClicked();
-    void onStepClicked();
     void onStartClicked();
 };
 

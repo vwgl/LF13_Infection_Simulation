@@ -15,6 +15,8 @@ const char *colorToString(eColor color)
         return "Contagious";
     case Immune:
         return "Immune";
+    case Free:
+        return "Free";
     default:
         return "Unknown";
     }

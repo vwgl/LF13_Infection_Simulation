@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     btnPause = new QPushButton("Pause", this);
     btnContinue = new QPushButton("Continue", this);
-    btnStep = new QPushButton("Step", this);
     parameterFrame = new QFrame(this);
     labelPeople = new QLabel("People:", this);
     lineEditPeople = new QLineEdit(this);
@@ -26,6 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     lineEditInfectionTime = new QLineEdit(this);
     labelRadiusSize = new QLabel("Infection Radius Size:", this);
     lineEditRadiusSize = new QLineEdit(this);
+    labelInfectionProbability = new QLabel("Infection Probability:", this);
+    lineEditInfectionProbability = new QLineEdit(this);
+    labelDeathProbability = new QLabel("Death Probability:", this);
+    lineEditDeathProbability = new QLineEdit(this);
+    labelImmuneTime = new QLabel("Immune time:", this);
+    lineEditImmuneTime = new QLineEdit(this);
     btnStart = new QPushButton("Start", this);
     simulationFrame = new QFrame(this);
 
@@ -34,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
     labelInfected = new QLabel("Infected: 0", this);
     labelTotal = new QLabel("Total: 0", this);
     labelAlive = new QLabel("Alive: 0", this);
-    labelIsolated = new QLabel("Isolated: 0", this);
     labelContagious = new QLabel("Contagious: 0", this);
     labelImmune = new QLabel("Immune: 0", this);
 
@@ -45,19 +49,12 @@ MainWindow::MainWindow(QWidget *parent)
     infoLayout->addWidget(labelHealthy);
     infoLayout->addWidget(labelImmune);
     infoLayout->addWidget(labelInfected);
-    infoLayout->addWidget(labelIsolated);
     infoLayout->addWidget(labelContagious);
 
     QFrame *legendFrame = new QFrame(this);
     QVBoxLayout *legendLayout = new QVBoxLayout;
 
     QHBoxLayout *colorLayout1 = new QHBoxLayout;
-    QLabel *isolatedLabel = new QLabel(this);
-    isolatedLabel->setFixedSize(20, 20);
-    isolatedLabel->setStyleSheet("background-color: blue;");
-    QLabel *isolatedText = new QLabel("Isolated", this);
-    colorLayout1->addWidget(isolatedLabel);
-    colorLayout1->addWidget(isolatedText);
 
     QHBoxLayout *colorLayout2 = new QHBoxLayout;
     QLabel *contagiousLabel = new QLabel(this);
@@ -103,6 +100,9 @@ MainWindow::MainWindow(QWidget *parent)
     labelIncubationTime->setFixedHeight(labelHeight);
     labelInfectionTime->setFixedHeight(labelHeight);
     labelRadiusSize->setFixedHeight(labelHeight);
+    labelInfectionProbability->setFixedHeight(labelHeight);
+    labelDeathProbability->setFixedHeight(labelHeight);
+    labelImmuneTime->setFixedHeight(labelHeight);
 
     QVBoxLayout *parameterEditLayout = new QVBoxLayout;
     parameterEditLayout->addWidget(labelPeople);
@@ -113,6 +113,12 @@ MainWindow::MainWindow(QWidget *parent)
     parameterEditLayout->addWidget(lineEditInfectionTime);
     parameterEditLayout->addWidget(labelRadiusSize);
     parameterEditLayout->addWidget(lineEditRadiusSize);
+    parameterEditLayout->addWidget(labelInfectionProbability);
+    parameterEditLayout->addWidget(lineEditInfectionProbability);
+    parameterEditLayout->addWidget(labelDeathProbability);
+    parameterEditLayout->addWidget(lineEditDeathProbability);
+    parameterEditLayout->addWidget(labelImmuneTime);
+    parameterEditLayout->addWidget(lineEditImmuneTime);
 
     QVBoxLayout *parameterLayout = new QVBoxLayout;
     parameterLayout->addLayout(parameterEditLayout);
@@ -121,7 +127,6 @@ MainWindow::MainWindow(QWidget *parent)
     buttonLayout->addWidget(btnStart);
     buttonLayout->addWidget(btnPause);
     buttonLayout->addWidget(btnContinue);
-    buttonLayout->addWidget(btnStep);
 
     QVBoxLayout *infoAndParameterLayout = new QVBoxLayout;
     infoAndParameterLayout->addWidget(legendFrame);
@@ -130,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent)
     parameterFrame->setLayout(infoAndParameterLayout);
 
     parameterEditLayout->setSpacing(20);
-    buttonLayout->setSpacing(80);
+    buttonLayout->setSpacing(60);
 
     QVBoxLayout *toolbarLayout = new QVBoxLayout;
     toolbarLayout->addLayout(parameterLayout);
@@ -158,8 +163,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(btnPause, &QPushButton::clicked, this, &MainWindow::onPauseClicked);
-    connect(btnContinue, &QPushButton::clicked, this, &MainWindow::onContinueClicked);
-    connect(btnStep, &QPushButton::clicked, this, &MainWindow::onStepClicked);
     connect(btnStart, &QPushButton::clicked, this, &MainWindow::onStartClicked);
 }
 
@@ -191,17 +194,15 @@ void MainWindow::onContinueClicked()
 
 }
 
-void MainWindow::onStepClicked()
-{
-
-}
-
 void MainWindow::onStartClicked()
 {
     incubationTime = lineEditIncubationTime->text().toInt();
     infectionTime = lineEditInfectionTime->text().toInt();
     numPeople = lineEditPeople->text().toInt();
     infectionRadius = lineEditRadiusSize->text().toInt();
+    infectionProbability = lineEditInfectionProbability->text().toInt();
+    deathProbability = lineEditDeathProbability->text().toInt();
+    immuneTime = lineEditImmuneTime->text().toInt();
 
     changeLabel(*labelTotal, QString::fromUtf8("Total"), numPeople);
     // Move to Controller
@@ -209,7 +210,6 @@ void MainWindow::onStartClicked()
     // setPixel(1, 1, Infected, &copyimage);
     // updateImage(&copyimage);
 }
-
 
 
 void MainWindow::setController(Controller *controller)
@@ -255,7 +255,6 @@ void MainWindow::updateImage(QImage* image)
 }
 
 
-
 void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
 {
     if (x >= 0 && x < 800 && y >= 0 && y < 600 && image)
@@ -268,26 +267,26 @@ void MainWindow::setPixel(int x, int y, eColor color, QImage *image)
         case Infected:
             image->setPixelColor(x, y, Qt::red);
             break;
-        case Isolated:
-            image->setPixelColor(x, y, Qt::blue);
-            break;
         case Contagious:
             image->setPixelColor(x, y, QColor(255, 165, 0));
             break;
         case Immune:
             image->setPixelColor(x, y, Qt::yellow);
             break;
+        case Free:
+            image->setPixelColor(x, y, Qt::white);
         }
     }
 }
-
 
 void MainWindow::getParameters(int *params){
     params[0] = numPeople;
     params[1] = incubationTime;
     params[2] = infectionTime;
     params[3] = infectionRadius;
-
+    params[4] = infectionProbability;
+    params[5] = deathProbability;
+    params[6] = immuneTime;
 }
 
 void MainWindow::changeLabel(QLabel &label, QString s, int num){
