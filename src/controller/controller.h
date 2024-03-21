@@ -7,7 +7,7 @@
 class Controller
 {
 public:
-    Controller(MainWindow gui);
+    Controller(MainWindow *gui);
     void start();
     void stop();
     void cont();
@@ -18,12 +18,12 @@ public:
 private:
     bool paused;
     bool busy;
-    int params[4];
+    int params[7];
     Population population;
     MainWindow *gui;
     int x_size;
     int y_size;
-
+    QImage image;
 };
 
 #endif // CONTROLLER_H
