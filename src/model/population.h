@@ -14,7 +14,7 @@ public:
     std::vector<Person*>* getSector(int x, int y);
     bool addPerson(int x, int y, int status);
     void movePerson(Person *p, int src_x, int src_y, int dest_x, int dest_y);
-    void killPerson(Person *p, int x, int y);
+    void killPerson(Person *p);
     std::vector<Person*>* getPersons();
     void incSickCounter();
     void decSickCounter();
