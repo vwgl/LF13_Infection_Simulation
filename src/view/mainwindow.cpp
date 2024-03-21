@@ -155,20 +155,29 @@ MainWindow::MainWindow(QWidget *parent)
     mainLayout->addLayout(toolbarLayout);
     mainLayout->addLayout(simulationLayout, 6);
     mainLayout->addWidget(parameterFrame);
-    mainLayout->addLayout(infoAndParameterLayout, 2);
 
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
 
+    lineEditPeople->setText("1000");
+    lineEditIncubationTime->setText("5");
+    lineEditInfectionTime->setText("10");
+    lineEditRadiusSize->setText("50");
+    lineEditInfectionProbability->setText("30");
+    lineEditDeathProbability->setText("5");
+    lineEditImmuneTime->setText("14");
 
     connect(btnPause, &QPushButton::clicked, this, &MainWindow::onPauseClicked);
     connect(btnStart, &QPushButton::clicked, this, &MainWindow::onStartClicked);
+    connect(btnContinue, &QPushButton::clicked, this, &MainWindow::onContinueClicked);
+
+
+    this->controller = 0;
 }
 
 MainWindow::~MainWindow()
 {
-
 }
 
 void MainWindow::setImage()
@@ -186,12 +195,16 @@ QImage* MainWindow::getImage()
 
 void MainWindow::onPauseClicked()
 {
-
+    if(controller != 0){
+        controller->stop();
+    }
 }
 
 void MainWindow::onContinueClicked()
 {
-
+    if(controller != 0){
+        controller->cont();
+    }
 }
 
 void MainWindow::onStartClicked()
@@ -205,10 +218,10 @@ void MainWindow::onStartClicked()
     immuneTime = lineEditImmuneTime->text().toInt();
 
     changeLabel(*labelTotal, QString::fromUtf8("Total"), numPeople);
-    // Move to Controller
-    // QImage copyimage = getImage()->copy();
-    // setPixel(1, 1, Infected, &copyimage);
-    // updateImage(&copyimage);
+    if(controller == 0){
+        this->setController(new Controller(this));
+    }
+    controller->start();
 }
 
 

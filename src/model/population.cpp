@@ -28,8 +28,7 @@ Population::Population(int x_size, int y_size, int radius, int num_persons)
     if(y_size % radius != 0){
         this->y_sectors++;
     }
-    this->area = std::vector<std::vector<Person*>*>(x_sectors * y_sectors);
-    this->persons = new std::vector<Person*>(num_persons);
+    this->persons = new std::vector<Person*>();
     for(int i = 0; i < x_sectors * y_sectors; i++){
         this->area.push_back(new std::vector<Person*>());
     }
@@ -54,7 +53,7 @@ std::vector<Person *> *Population::getSector(int idx)
 
 std::vector<Person *> *Population::getSector(int x, int y)
 {
-    return this->area.at(getSectorIdx(x,y));
+    return this->area.at(CoordsToSectorIdx(x,y));
 }
 
 bool Population::addPerson(int x, int y, int status)
@@ -170,7 +169,7 @@ int Population::getSickPopulation()
 
 int Population::getSectorIdx(int x, int y)
 {
-    return x * x_sectors + y;
+    return y * x_sectors + x;
 }
 
 int Population::CoordsToSectorIdx(int x, int y)
