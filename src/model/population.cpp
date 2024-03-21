@@ -44,6 +44,9 @@ Population::Population(int x_size, int y_size, int radius, int num_persons)
         x = rand() % x_size;
         y = rand() % y_size;
     }while(!addPerson(x,y,INFECTED + CONTAGIOUS));
+    pers_total = num_persons;
+    pers_alive = num_persons;
+    pers_sick = 1;
 }
 
 std::vector<Person *> *Population::getSector(int idx)
@@ -122,9 +125,23 @@ void Population::movePerson(Person *p, int src_x, int src_y, int dest_x, int des
     }
 }
 
-void Population::killPerson(Person *p, int x, int y)
+void Population::killPerson(Person *p)
 {
-
+    std::vector<Person *> *sector = getSector(CoordsToSectorIdx(p->getX(), p->getY()));
+    p->updateStatus(DECEASED);
+    for(int i = 0; i < persons->size(); i++){
+        if(persons->at(i) == p){
+            persons->erase(persons->begin() + i);
+            break;
+        }
+    }
+    for(int i = 0; i < sector->size(); i++){
+        if(sector->at(i) == p){
+            sector->erase(sector->begin() + i);
+            break;
+        }
+    }
+    pers_alive--;
 }
 
 std::vector<Person *>* Population::getPersons()
@@ -134,37 +151,37 @@ std::vector<Person *>* Population::getPersons()
 
 void Population::incSickCounter()
 {
-
+    pers_sick++;
 }
 
 void Population::decSickCounter()
 {
-
+    pers_sick--;
 }
 
 int Population::getTotalPopulation()
 {
-    return 0;
+    return pers_total;
 }
 
 int Population::getAlivePopulation()
 {
-    return 0;
+    return pers_alive;
 }
 
 int Population::getDeadPopulation()
 {
-    return 0;
+    return pers_total - pers_alive;
 }
 
 int Population::getHealthyPopulation()
 {
-    return 0;
+    return pers_alive - pers_sick;
 }
 
 int Population::getSickPopulation()
 {
-    return 0;
+    return pers_sick;
 }
 
 int Population::getSectorIdx(int x, int y)

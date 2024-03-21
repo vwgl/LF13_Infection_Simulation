@@ -18,6 +18,7 @@ void Controller::start()
     int status;
     image = gui->getImage()->copy();
     if(!busy){
+        this->busy = true;
         this->paused = false;
         gui->getParameters(params);
         this->population = Population(x_size, y_size, params[3],params[0]);
@@ -98,9 +99,11 @@ void Controller::step()
                 status = o->getStatus();
                 if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                     if((status & INFECTED) != INFECTED){
-                        status = status | INFECTED;
-                        o->updateStatus(status);
-                        population.incSickCounter();
+                        if(rand() % 100 < params[4]){
+                            status = status | INFECTED;
+                            o->updateStatus(status);
+                            population.incSickCounter();
+                        }
                     }
                 }
             }
@@ -113,9 +116,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -130,9 +135,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -147,9 +154,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -164,9 +173,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -181,9 +192,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE && (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -198,9 +211,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE || (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -215,9 +230,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE || (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -232,9 +249,11 @@ void Controller::step()
                         status = o->getStatus();
                         if((status & IMMUNE) != IMMUNE || (status &  ISOLATED) !=  ISOLATED){
                             if((status & INFECTED) != INFECTED){
-                                status = status | INFECTED;
-                                o->updateStatus(status);
-                                population.incSickCounter();
+                                if(rand() % 100 < params[4]){
+                                    status = status | INFECTED;
+                                    o->updateStatus(status);
+                                    population.incSickCounter();
+                                }
                             }
                         }
                     }
@@ -245,7 +264,13 @@ void Controller::step()
             p->updateStatus(INFECTED + SYMPTOMATIC + CONTAGIOUS);
         }
         if(p->getDaysInfected() >= params[2]){
-            p->updateStatus(IMMUNE);
+            population.decSickCounter();
+            if(rand() % 100 <  params[5]){
+                population.killPerson(p);
+            }else{
+                p->updateStatus(IMMUNE);
+            }
+
         }
         if(p->getDaysImmune() >= 30){
             p->updateStatus(0);
